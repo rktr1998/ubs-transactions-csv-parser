@@ -1,0 +1,13 @@
+Account number:;1234 12345678.12;
+IBAN:;CH20 0011 2233 4455 6677 B;
+From:;2025-01-01;
+Until:;2025-12-31;
+Opening balance:;1234.12;
+Closing balance:;12345.12;
+Valued in:;CHF;
+Numbers of transactions in this period:;3;
+
+Trade date;Trade time;Booking date;Value date;Currency;Debit;Credit;Individual amount;Balance;Transaction no.;Description1;Description2;Description3;Footnotes;
+2025-01-01;00:10:21;2025-01-01;2025-01-01;CHF;-137.00;;;1370.17;4825794DP1572581020;"John Doe;Weissstrasse 19; 4001 Basel; CH";Standing order;"Reference no. ABB: 56 34523 88997 22445 25398 09132; Reason for payment: 01.01.2025 Langstrasse 137 Zurich; Account no. IBAN: CH45 4678 2354 6874 1253 9; Costs: Standing order domestic; Transaction no. 4825794DP1572581020";;
+2025-01-01;00:11:22;2025-01-01;2025-01-01;CHF;-138.00;;;1370.17;4825794DP1572581021;"John Doe;Weissstrasse 19; 4001 Basel; CH";Standing order;"Reference no. ABB: 56 34523 88997 22445 25398 09132; Reason for payment: 01.01.2025 Langstrasse 137 Zurich; Account no. IBAN: CH45 4678 2354 6874 1253 9; Costs: Standing order domestic; Transaction no. 4825794DP1572581021";;
+2025-01-01;00:12:22;2025-01-01;2025-01-01;CHF;-139.00;;;1370.17;4825794DP1572581022;"John Doe;Weissstrasse 19; 4001 Basel; CH";Standing order;"Reference no. ABB: 56 34523 88997 22445 25398 09132; Reason for payment: 01.01.2025 Langstrasse 137 Zurich; Account no. IBAN: CH45 4678 2354 6874 1253 9; Costs: Standing order domestic; Transaction no. 4825794DP1572581022";;

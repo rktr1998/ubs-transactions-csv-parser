@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=42", "wheel", "pycountry>=24.6.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ubs-transactions-csv-parser"
+version = "0.1.4"
+description = "Parse and deduplicate UBS transaction CSVs"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Riccardo Torreggiani", email = "riccardo.torreggiani@gmail.com" }
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+requires-python = ">=3.11"
+
+[project.urls]
+Homepage = "https://github.com/rktr1998/ubs-transactions-csv-parser"
