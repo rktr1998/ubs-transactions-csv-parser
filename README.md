@@ -13,11 +13,11 @@ pip install ubs-transactions-csv-parser
 Import the transactions from a CSV file.
 
 ```python
-from ubs_transactions_csv_parser import CsvExportData
+from ubs_transactions_csv_parser import AccountExportData
 from pathlib import Path
 
 # Parse a CSV file
-csv_data = CsvExportData.from_path(Path("transactions.csv"))
+csv_data = AccountExportData.from_csv(Path("transactions.csv"))
 
 # Access the transactions
 for transaction in csv_data.transactions:
@@ -32,7 +32,8 @@ UBS exports transactions in a non-standard CSV format with two sections:
 2. **Transactions section** - Standard CSV with transaction data
 
 Example format:
-```
+
+```csv
 Account number:;1234 12345678.12;
 IBAN:;CH20 0011 2233 4455 6677 B;
 From:;2025-01-01;

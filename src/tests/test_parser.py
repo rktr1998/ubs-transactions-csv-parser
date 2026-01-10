@@ -1,8 +1,8 @@
-from ubs_transactions_csv_parser import CsvExportData, Transaction
+from ubs_transactions_csv_parser import AccountExportData, AccountTransaction
 from pathlib import Path
 
 # read test CSV file data
-test_csv = CsvExportData.from_path(Path("src/tests/test_transactions.csv"))
+test_csv = AccountExportData.from_csv(Path("src/tests/test_transactions.csv"))
 assert len(test_csv.transactions) == 3
 print(f"Found {len(test_csv.transactions)} transactions for account number: {test_csv.account_number}")
 
