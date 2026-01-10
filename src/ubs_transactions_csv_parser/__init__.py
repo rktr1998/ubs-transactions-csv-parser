@@ -1,7 +1,9 @@
-__version__ = "0.1.4"
+__version__ = "0.2.0"
 __author__ = "Riccardo Torreggiani"
 __license__ = "MIT"
 
-from .transaction import Transaction
-from .csv_export_data import CsvExportData
-from .currency import Currency
+from .AccountTransaction import AccountTransaction
+from .AccountExportData import AccountExportData
+from .CardTransaction import CardTransaction
+from .CardExportData import CardExportData
+from .Currency import Currency

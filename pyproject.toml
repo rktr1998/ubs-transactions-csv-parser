@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ubs-transactions-csv-parser"
-version = "0.1.6"
+version = "0.2.0"
 description = "Parse and deduplicate UBS transaction CSV files."
 readme = "README.md"
 license = { file = "LICENSE" }

@@ -4,13 +4,11 @@ from decimal import Decimal
 from pathlib import Path
 from typing import List
 from dataclasses import dataclass
-from .transaction import Transaction
-from .currency import Currency
-
-CSV_HEADER = "Trade date;Trade time;Booking date;Value date;Currency;Debit;Credit;Individual amount;Balance;Transaction no.;Description1;Description2;Description3;Footnotes;"
+from .AccountTransaction import AccountTransaction
+from .Currency import Currency
 
 @dataclass(frozen=True)
-class CsvExportData:
+class AccountExportData:
     account_number: str
     iban: str
     from_date: date
@@ -19,13 +17,13 @@ class CsvExportData:
     closing_balance: Decimal
     valued_in: Currency
     number_of_transactions: int
-    transactions: List[Transaction]
+    transactions: List[AccountTransaction]
 
     @classmethod
-    def from_path(cls, path: Path) -> "CsvExportData":
+    def from_csv(cls, path: Path) -> "AccountExportData":
         """
-        Parse a UBS transaction CSV file to return a CsvExportData object, which contains the CSV metadata
-        and a list of Transaction objects.
+        Parse a UBS transaction CSV file to return a AccountExportData object, which contains the CSV metadata
+        and a list of AccountTransaction objects.
 
         Beware that the UBS transactions CSV file is actually an invalid CSV: it has a first section with some metadata,
         then an empty line, and finally a second section with actual CSV data. As in the example below:
@@ -39,11 +37,11 @@ class CsvExportData:
         Valued in:;CHF;
         Numbers of transactions in this period:;365;
 
-        Trade date;Trade time;Booking date;Value date;Currency;Debit;Credit;Individual amount;Balance;Transaction no.;Description1;Description2;Description3;Footnotes;
-        2025-01-01;00:11:22;2025-01-01;2025-01-01;CHF;-137.00;;;1370.17;4825794DP1572581029;"John Doe;Weissstrasse 19; 4001 Basel; CH";Standing order;"Reference no. ABB: 56 34523 88997 22445 25398 09132; Reason for payment: 01.01.2025 Langstrasse 137 Zurich; Account no. IBAN: CH45 4678 2354 6874 1253 9; Costs: Standing order domestic; Transaction no. 4825794DP1572581029";;
+        Trade date;Trade time;Booking date;Value date;Currency;Debit;Credit;Individual amount;Balance;AccountTransaction no.;Description1;Description2;Description3;Footnotes;
+        2025-01-01;00:11:22;2025-01-01;2025-01-01;CHF;-137.00;;;1370.17;4825794DP1572581029;"John Doe;Weissstrasse 19; 4001 Basel; CH";Standing order;"Reference no. ABB: 56 34523 88997 22445 25398 09132; Reason for payment: 01.01.2025 Langstrasse 137 Zurich; Account no. IBAN: CH45 4678 2354 6874 1253 9; Costs: Standing order domestic; AccountTransaction no. 4825794DP1572581029";;
         ...
         """
-        with path.open(encoding="utf-8") as f:
+        with path.open() as f:
             lines = [line.strip() for line in f]
         
         if len(lines) < 10:
@@ -64,7 +62,7 @@ class CsvExportData:
             raise ValueError("Expected an empty line between metadata and transactions")
         
         # Check CSV header
-        if lines[9] != CSV_HEADER:
+        if lines[9] != AccountTransaction.CSV_HEADER:
             raise ValueError("Unexpected CSV header")
 
         # Parse transactions
@@ -72,39 +70,7 @@ class CsvExportData:
         for line in lines[10:]:
             reader = csv.reader([line], delimiter=';', quotechar='"')
             row = next(reader)
-            if len(row) < 14:
-                raise ValueError(f"Transaction at line {lines.index(line) + 1} has an unexpected number of columns")
-            trade_date = date.fromisoformat(row[0])
-            trade_time = time.fromisoformat(row[1]) if row[1] else None
-            booking_date = date.fromisoformat(row[2])
-            value_date = date.fromisoformat(row[3])
-            currency = Currency(row[4])
-            debit = Decimal(row[5]) if row[5] else None
-            credit = Decimal(row[6]) if row[6] else None
-            individual_amount = Decimal(row[7]) if row[7] else None
-            balance = Decimal(row[8])
-            transaction_no = row[9]
-            description1 = row[10]
-            description2 = row[11]
-            description3 = row[12]
-            footnotes = row[13]
-
-            transaction = Transaction(
-                trade_date=trade_date,
-                trade_time=trade_time,
-                booking_date=booking_date,
-                value_date=value_date,
-                currency=currency,
-                debit=debit,
-                credit=credit,
-                individual_amount=individual_amount,
-                balance=balance,
-                transaction_no=transaction_no,
-                description1=description1,
-                description2=description2,
-                description3=description3,
-                footnotes=footnotes
-            )
+            transaction = AccountTransaction.from_csv_row(row)
             transactions.append(transaction)
         
         if len(transactions) != number_of_transactions:
