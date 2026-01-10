@@ -8,7 +8,9 @@ from .CardTransaction import CardTransaction
 class CardExportData:
     """
     Parse a UBS card transaction CSV file to return a CardExportData object, which contains a list of CardTransaction objects.
-    Beware that the UBS transactions CSV file is actually an invalid CSV: we discard the first line. It looks like this:
+    Beware that the UBS transactions CSV file is actually an invalid CSV: we discard the first line.
+    The last 3 lines must also be discarded as they contain summary information, not transactions.
+    The CSV starts like this:
 
     sep=;
     Account number;Card number;Account/Cardholder;Purchase date;Booking text;Sector;Amount;Original currency;Rate;Currency;Debit;Credit;Booked
@@ -23,7 +25,7 @@ class CardExportData:
         """
         Parse a UBS card transaction CSV file to return a CardExportData object.
         """
-        with path.open(encoding="utf-8") as f:
+        with path.open() as f:
             lines = [line.strip() for line in f]
         
         # Verify header
@@ -33,8 +35,8 @@ class CardExportData:
         if lines[1] != CardTransaction.CSV_HEADER:
             raise ValueError("Unexpected CSV header")
         
-        # Skip first line (sep=;) and header line
-        data_lines = lines[2:]
+        # Skip first line (sep=;) and header line, and discard last 3 lines
+        data_lines = lines[2:-3]
         
         transactions = []
         for line in data_lines:

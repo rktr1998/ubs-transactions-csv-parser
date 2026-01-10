@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from datetime import date
 from decimal import Decimal
 from .Currency import Currency
 
@@ -12,7 +11,7 @@ class CardTransaction:
     account_number: str
     card_number: str
     account_cardholder: str
-    purchase_date: date
+    purchase_date: str
     booking_text: str
     sector: str
     amount: Decimal
@@ -46,7 +45,7 @@ class CardTransaction:
         account_number = row[0]
         card_number = row[1]
         account_cardholder = row[2]
-        purchase_date = date.fromisoformat(row[3])
+        purchase_date = row[3] # as the format of the date is unkown, we keep it as a string
         booking_text = row[4]
         sector = row[5]
         amount = Decimal(row[6])

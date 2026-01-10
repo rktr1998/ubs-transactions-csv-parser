@@ -41,7 +41,7 @@ class AccountExportData:
         2025-01-01;00:11:22;2025-01-01;2025-01-01;CHF;-137.00;;;1370.17;4825794DP1572581029;"John Doe;Weissstrasse 19; 4001 Basel; CH";Standing order;"Reference no. ABB: 56 34523 88997 22445 25398 09132; Reason for payment: 01.01.2025 Langstrasse 137 Zurich; Account no. IBAN: CH45 4678 2354 6874 1253 9; Costs: Standing order domestic; AccountTransaction no. 4825794DP1572581029";;
         ...
         """
-        with path.open(encoding="utf-8") as f:
+        with path.open() as f:
             lines = [line.strip() for line in f]
         
         if len(lines) < 10:
